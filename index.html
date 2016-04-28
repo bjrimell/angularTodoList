@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+	</head>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<body>
+	<div ng-app="myTodoList" ng-cloak ng-controller="myCtrl" class="w3-card-2 w3-margin" style="max-width:400px;">
+	  <header class="w3-container w3-light-grey w3-padding-hor-16">
+	    <h3>My Todo List</h3>
+	  </header>
+	  <ul class="w3-ul">
+	    <li ng-repeat="x in products | filter:done=false" class="w3-padding-hor-16">{{x.todoText}}<label for="mark_Completed_Chkbx" class="w3-right w3-margin-right"> Completed?</label><span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right"><input type="checkbox" if="mark_Completed_Chkbx"></span></li>
+	  </ul>
+	  <div class="w3-container w3-light-grey w3-padding-hor-16">
+	    <div class="w3-row w3-margin-top">
+	      <div class="w3-col s10">
+	        <input placeholder="Add todo list items here" ng-model="addMe" class="w3-input w3-border w3-padding">
+	      </div>
+	      <div class="w3-col s2">
+	        <button ng-click="addItem()" class="w3-btn w3-padding w3-green">Add</button>
+	      </div>
+	    </div>
+	    <p class="w3-padding-left w3-text-red">{{errortext}}</p>
+	  </div>
+	  <div>
+	  	<p>Completed Tasks</p>
+	  	<ul class="w3-ul">
+	  		<li ng-repeat="x in products | filter:done=true"><strike>{{x.todoText}}</strike></li>
+	  	</ul>
+	  </div>
+	</div>
+		<script>
+		var app = angular.module("myTodoList", []);
+			app.controller("myCtrl", function($scope) {
+			$scope.products = [{todoText: "Tidy room", done:false}, {todoText: "Buy some milk", done:true}, {todoText: "Phone friend", done:false}];
+
+			$scope.removeItem = function(itemIndex) {
+				$scope.products[itemIndex].done = true;
+			// the below code would be used to remove the item from the array, however we just want to mark it as done.
+			//$scope.products.splice(itemIndex, 1);
+			}
+			
+			$scope.addItem = function() {
+			$scope.errorText = "There is no error to report. Well done!";
+			if (!$scope.addMe) {return;}
+
+			if ($scope.products.indexOf($scope.addMe) == -1) {
+						$scope.products.push({todoText:$scope.addMe, done:false});
+				} else {
+					$scope.errorText = "This item is already in your todo list!"
+				}
+			}
+
+	});</script>
+	</body>
+</html>
