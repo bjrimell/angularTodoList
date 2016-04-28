@@ -10,7 +10,7 @@
 	    <h3>My Todo List</h3>
 	  </header>
 	  <ul class="w3-ul">
-	    <li ng-repeat="x in products | filter:done=false" class="w3-padding-hor-16">{{x.todoText}}<label for="mark_Completed_Chkbx" class="w3-right w3-margin-right"> Completed?</label><span ng-click="removeItem($index)" style="cursor:pointer;" class="w3-right w3-margin-right"><input type="checkbox" if="mark_Completed_Chkbx"></span></li>
+	    <li ng-repeat="todoItem in products  | filter:done=false" class="w3-padding-hor-16">{{todoItem.todoText}}<label for="mark_Completed_Chkbx" class="w3-right w3-margin-right"> Completed?</label><span ng-click="removeItem(todoItem)" style="cursor:pointer;" class="w3-right w3-margin-right"><input type="checkbox" ng-model="todoItem.done" if="mark_Completed_Chkbx"></span></li>
 	  </ul>
 	  <div class="w3-container w3-light-grey w3-padding-hor-16">
 	    <div class="w3-row w3-margin-top">
@@ -26,20 +26,20 @@
 	  <div>
 	  	<p>Completed Tasks</p>
 	  	<ul class="w3-ul">
-	  		<li ng-repeat="x in products | filter:done=true"><strike>{{x.todoText}}</strike></li>
+	  		<li ng-repeat="todoItem in products | filter:done=true"><strike>{{todoItem.todoText}}</strike></li>
 	  	</ul>
 	  </div>
 	</div>
 		<script>
 		var app = angular.module("myTodoList", []);
 			app.controller("myCtrl", function($scope) {
-			$scope.products = [{todoText: "Tidy room", done:false}, {todoText: "Buy some milk", done:true}, {todoText: "Phone friend", done:false}];
 
-			$scope.removeItem = function(itemIndex) {
-				$scope.products[itemIndex].done = true;
-			// the below code would be used to remove the item from the array, however we just want to mark it as done.
-			//$scope.products.splice(itemIndex, 1);
+			$scope.initialiseData = function()
+			{
+				$scope.products = [{todoText: "Tidy room", done:false}, {todoText: "Buy some milk", done:true}, {todoText: "Phone bank", done:false}]
 			}
+
+			$scope.initialiseData();
 			
 			$scope.addItem = function() {
 			$scope.errorText = "There is no error to report. Well done!";
@@ -50,6 +50,11 @@
 				} else {
 					$scope.errorText = "This item is already in your todo list!"
 				}
+			}
+
+			$scope.updateList = function() {
+				$scope.tempList = $scope.products;
+				$scope.initialiseData();
 			}
 
 	});</script>
