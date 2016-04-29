@@ -15,12 +15,17 @@ app.service("todoListService", function($http, $q)
 	
 })
 
+app.controller('todoListCtrl', function($scope, $http) {
+    $http.get("data/mySqlTest.php")
+    .then(function (response) {$scope.products = response.data.records;});
+});
+
 app.controller("myCtrl", function($scope, todoListService) {
 
 	var promise = todoListService.getItems();
 	promise.then(function(response)
 	{
-		$scope.products = response.data.TodoListData;
+		//$scope.products = response.data.TodoListData;
 	});
 
 $scope.addItem = function() {
@@ -29,7 +34,6 @@ if (!$scope.addMe) {return;}
 
 if ($scope.products.indexOf($scope.addMe) == -1) {
 			$scope.products.push({Title:$scope.addMe, Completed:false});
-			$scope.save();
 	} else {
 		$scope.errorText = "This item is already in your todo list!"
 	}
