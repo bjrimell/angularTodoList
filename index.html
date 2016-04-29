@@ -10,7 +10,7 @@
 	    <h3>My Todo List</h3>
 	  </header>
 	  <ul class="w3-ul">
-	    <li ng-repeat="todoItem in products  | filter:done=false" class="w3-padding-hor-16">{{todoItem.todoText}}<label for="mark_Completed_Chkbx" class="w3-right w3-margin-right"> Completed?</label><span ng-click="removeItem(todoItem)" style="cursor:pointer;" class="w3-right w3-margin-right"><input type="checkbox" ng-model="todoItem.done" if="mark_Completed_Chkbx"></span></li>
+	    <li ng-repeat="todoItem in products  | filter:Completed=false" class="w3-padding-hor-16">{{todoItem.Title}}<label for="mark_Completed_Chkbx" class="w3-right w3-margin-right"> Completed?</label><span ng-click="removeItem(todoItem)" style="cursor:pointer;" class="w3-right w3-margin-right"><input type="checkbox" ng-model="todoItem.Completed" if="mark_Completed_Chkbx"></span></li>
 	  </ul>
 	  <div class="w3-container w3-light-grey w3-padding-hor-16">
 	    <div class="w3-row w3-margin-top">
@@ -26,7 +26,7 @@
 	  <div>
 	  	<p>Completed Tasks</p>
 	  	<ul class="w3-ul">
-	  		<li ng-repeat="todoItem in products | filter:done=true"><strike>{{todoItem.todoText}}</strike></li>
+	  		<li ng-repeat="todoItem in products | filter:Completed=true"><strike>{{todoItem.Title}}</strike></li>
 	  	</ul>
 	  </div>
 	</div>
