@@ -18,25 +18,26 @@ app.service("todoListService", function($http, $q)
 app.controller('todoListCtrl', function($scope, $http) {
     $http.get("data/mySqlTest.php")
     .then(function (response) {$scope.products = response.data.records;});
-});
 
-app.controller("myCtrl", function($scope, todoListService) {
+    $scope.addItem = function() {
+		$scope.errorText = "There is no error to report. Well done!";
+		if (!$scope.addMe) {return;}
 
-	var promise = todoListService.getItems();
-	promise.then(function(response)
-	{
-		//$scope.products = response.data.TodoListData;
-	});
+		if ($scope.products.indexOf($scope.addMe) == -1) {
+					$scope.products.push({Title:$scope.addMe, Completed:false});
+					// TODO: AT THIS POINT WE SHOULD BE UPDATING THE DB
+					$http.post("php/addnewItem.php?Title="+$scope.addMe).success(function(data){
+	        // getTask();
+	      });
+			} else {
+				$scope.errorText = "This item is already in your todo list!"
+			}
+		}
 
-$scope.addItem = function() {
-$scope.errorText = "There is no error to report. Well done!";
-if (!$scope.addMe) {return;}
-
-if ($scope.products.indexOf($scope.addMe) == -1) {
-			$scope.products.push({Title:$scope.addMe, Completed:false});
-	} else {
-		$scope.errorText = "This item is already in your todo list!"
-	}
-}
-
+		$scope.markItemDone = function(Id, Completed) {
+	    //if(status=='2'){status='0';}else{status='2';}
+	      $http.post("php/updateItem.php?Id="+Id+"&Completed="+Completed).success(function(data){
+	        // getTask();
+	      });
+  }
 });
